@@ -71,8 +71,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
             ). then(function(result) {
                 var blob = new Blob([iv, new Uint8Array(result)], {type: "application/octet-stream"});
+
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                // set the name of the file
+                link.download = "encrypted" + sourceFile.name;
+                // clicking the anchor element will download the file
+                link.click();
                 var fd = new FormData();
-                fd.append("name", "blob1.txt")
+                fd.append("name", "encrypt" + sourceFile.name)
                 fd.append("data", blob);
                 console.log(fd.get("data"));
                 $.ajax({
@@ -89,12 +96,12 @@ document.addEventListener("DOMContentLoaded", function() {
                         alert(xhr.responseText);
                         alert(textStatus);
                     });
-                var blobUrl = URL.createObjectURL(blob);
+            /*  var blobUrl = URL.createObjectURL(blob);
 
                 document.getElementById("download-links").insertAdjacentHTML(
                     'beforeEnd',
                     '<li><a href="' + blobUrl + '" download="' + sourceFile.name + '.encrypted">Encryption of ' + sourceFile.name + '</a></li>'
-                    );
+                  ); */
 
             }). catch(function(err) {
                 alert("Encryption failed: " + err.message);
@@ -135,12 +142,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
             ).then(function(result) {
                 var blob = new Blob([new Uint8Array(result)], {type: "application/octet-stream"});
-                var blobUrl = URL.createObjectURL(blob);
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                // set the name of the file
+                link.download = "Decrypted" + sourceFile.name;
+                // clicking the anchor element will download the file
+                link.click();
+              /*  var blobUrl = URL.createObjectURL(blob);
 
                 document.getElementById("download-links").insertAdjacentHTML(
                     'beforeEnd',
                     '<li><a href="' + blobUrl + '" download="' + sourceFile.name + '.decrypted">Decryption of ' + sourceFile.name +"decryptionDONE" + '</a></li>'
-                    );
+                  ); */
             }).
             catch(function(err) {
                 alert("Decryption failed: " + err.message);

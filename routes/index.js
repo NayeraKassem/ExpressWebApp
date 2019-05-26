@@ -17,6 +17,7 @@ router.post('/uploadToServer', function(req, res, next) {
     fileNameToSave = val;
   })
   req.busboy.on('file', function(fieldname, file, filename){
+    console.log(file);
     fstream = fs.createWriteStream('./public/files/' + fileNameToSave);
     file.pipe(fstream);
     fstream.on('close', function () {
